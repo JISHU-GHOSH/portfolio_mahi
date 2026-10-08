@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import HeroSection from './HeroSection';
 import ProjectsSection from './ProjectsSection';
+import AboutSection from './AboutSection';
 
 export default function App() {
   const [contactOpen, setContactOpen] = useState(false);
@@ -21,6 +22,10 @@ export default function App() {
         onOpenResume={handleOpenResume}
       >
         <ProjectsSection onOpenContact={handleOpenContact} />
+        <AboutSection
+          onOpenResume={handleOpenResume}
+          onOpenContact={handleOpenContact}
+        />
       </HeroSection>
     </div>
   );
