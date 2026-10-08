@@ -1,14 +1,16 @@
 import { useRef, useEffect } from 'react';
 
 const NUM_FRAMES      = 64;
-const DEADZONE_ENTER  = 0.07;
-const DEADZONE_EXIT   = 0.09;
-const BG_COLOR        = '#ee8299'; // Exact match with video background
+const CENTER_INDEX    = 38; // Frame 108 is the exact neutral forward eye-contact frame (108 - 70 = 38)
+const DEADZONE_ENTER  = 0.06;
+const DEADZONE_EXIT   = 0.085;
+const BG_COLOR        = '#ee8299'; // Barbie Pink exact match with video background
 const FACE_CENTER_X   = 0.502;
 const FACE_CENTER_Y   = 0.389;
 
-const FRAME_LERP      = 0.20;
-const MAX_FRAME_STEP  = 2.4;
+// Fluid lerp physics for liquid-smooth 60 FPS tracking (matches peaceful-raman standards)
+const FRAME_LERP      = 0.16;
+const MAX_FRAME_STEP  = 1.2;
 const ASPECT_RATIO    = 1920 / 1080;
 
 export default function CharacterCanvas({ className = 'character-canvas' }) {
@@ -19,8 +21,8 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
     centerImg:      null,
     loaded:         0,
     totalFrames:    NUM_FRAMES + 1,
-    smoothFrame:    0,
-    targetAngle:    0,
+    smoothFrame:    CENTER_INDEX,
+    targetFrame:    CENTER_INDEX,
     isCenter:       true,
     rafId:          null,
     mouseX:         FACE_CENTER_X,
@@ -30,6 +32,7 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
     isReady:        false,
   });
 
+  // Preload all 64 continuous sweep frames + center.webp
   useEffect(() => {
     const s = state.current;
     let isMounted = true;
@@ -61,6 +64,7 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
     return () => { isMounted = false; };
   }, []);
 
+  // Pointer & Touch Interaction
   useEffect(() => {
     const s = state.current;
     let isTouching = false;
@@ -131,6 +135,7 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
     };
   }, []);
 
+  // 60 FPS Render Loop
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -166,7 +171,7 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
       const H = window.innerHeight;
       if (W <= 0 || H <= 0) return;
 
-      // ── Object-fit: cover metrics for video aspect ratio ──
+      // Object-fit: cover metrics for 16:9 video
       const cA = W / H;
       let dW, dH, dX, dY;
       if (ASPECT_RATIO > cA) {
@@ -181,20 +186,20 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
         dY = (H - dH) / 2;
       }
 
-      // ── Exact pixel position of Mahi's face on canvas ──
+      // Exact pixel position of Mahi's face
       const faceCX = dX + dW * FACE_CENTER_X;
       const faceCY = dY + dH * FACE_CENTER_Y;
 
-      // ── Smooth cursor coordinate filter (low-pass) ──
-      s.curMouseX += (s.mouseX - s.curMouseX) * Math.min(1, 0.28 * dt);
-      s.curMouseY += (s.mouseY - s.curMouseY) * Math.min(1, 0.28 * dt);
+      // Low-pass smooth filter on cursor position
+      s.curMouseX += (s.mouseX - s.curMouseX) * Math.min(1, 0.25 * dt);
+      s.curMouseY += (s.mouseY - s.curMouseY) * Math.min(1, 0.25 * dt);
 
       const cx = s.curMouseX * W;
       const cy = s.curMouseY * H;
       const dx = cx - faceCX;
       const dy = cy - faceCY;
 
-      // ── Distance & Hysteresis Deadzone ──
+      // Distance from face center for deadzone
       const dist = Math.sqrt(dx * dx + dy * dy) / Math.min(W, H);
       if (s.isCenter) {
         if (dist > DEADZONE_EXIT) s.isCenter = false;
@@ -202,31 +207,32 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
         if (dist < DEADZONE_ENTER) s.isCenter = true;
       }
 
-      // Only recalculate angle when outside the inner jitter zone
-      if (dist >= 0.03) {
-        s.targetAngle = Math.atan2(-dy, dx);
+      // Linear normalized horizontal displacement [-1.0, 1.0]
+      // Sensitive tracking: full turn reached before window edge
+      const halfTrackWidth = W * 0.42;
+      const normX = Math.max(-1, Math.min(1, dx / halfTrackWidth));
+
+      // Continuous unbroken frame mapping:
+      // normX = -1.0 (Left edge)  => Frame 0 (Profile Left)
+      // normX =  0.0 (Center)     => CENTER_INDEX = 38 (Direct eye contact)
+      // normX = +1.0 (Right edge) => Frame 63 (Profile Right)
+      let target;
+      if (normX < 0) {
+        target = CENTER_INDEX + normX * CENTER_INDEX; // 38 -> 0
+      } else {
+        target = CENTER_INDEX + normX * (NUM_FRAMES - 1 - CENTER_INDEX); // 38 -> 63
       }
+      s.targetFrame = Math.max(0, Math.min(NUM_FRAMES - 1, target));
 
-      // Angle -> frame index [0, 64)
-      let normTarget = s.targetAngle % (2 * Math.PI);
-      if (normTarget < 0) normTarget += 2 * Math.PI;
-      const targetFrame = (normTarget / (2 * Math.PI)) * NUM_FRAMES;
-
-      // Shortest circular path
-      let diff = targetFrame - s.smoothFrame;
-      if (diff >  NUM_FRAMES / 2) diff -= NUM_FRAMES;
-      if (diff < -NUM_FRAMES / 2) diff += NUM_FRAMES;
-
+      // Liquid-smooth lerp physics (monotonic, zero jumps, max 1.2 frame per tick)
+      const diff = s.targetFrame - s.smoothFrame;
       const lf = 1 - Math.pow(1 - FRAME_LERP, dt);
-      const absDiff = Math.abs(diff);
-      const speedFactor = absDiff < 2.0 ? Math.max(lf * 0.75, 0.10) : Math.max(lf, 0.20);
-      const step = Math.sign(diff) * Math.min(absDiff * speedFactor, MAX_FRAME_STEP);
+      const step = Math.sign(diff) * Math.min(Math.abs(diff) * lf, MAX_FRAME_STEP * dt);
+      s.smoothFrame = Math.max(0, Math.min(NUM_FRAMES - 1, s.smoothFrame + step));
 
-      s.smoothFrame = ((s.smoothFrame + step) % NUM_FRAMES + NUM_FRAMES) % NUM_FRAMES;
+      const frameIdx = Math.round(s.smoothFrame);
 
-      const frameIdx = Math.round(s.smoothFrame) % NUM_FRAMES;
-
-      // Frame selection with neutral fallback
+      // Frame selection: center deadzone locks onto center.webp
       let img = null;
       if (s.isCenter && s.centerImg && s.centerImg.complete && s.centerImg.naturalWidth > 0) {
         img = s.centerImg;
@@ -236,18 +242,23 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
         img = s.centerImg;
       }
 
-      // Clear with background color for seamless edges
+      // Clear with exact Barbie Pink background
       ctx.fillStyle = BG_COLOR;
       ctx.fillRect(0, 0, W, H);
 
+      // Subtle 3D micro-parallax shift for living depth
+      const parallaxX = (s.curMouseX - FACE_CENTER_X) * 6;
+      const parallaxY = (s.curMouseY - FACE_CENTER_Y) * 8;
+
       if (img) {
         try {
-          ctx.drawImage(img, dX, dY, dW, dH);
+          ctx.drawImage(img, dX + parallaxX, dY + parallaxY, dW, dH);
         } catch {
           // Graceful fallback
         }
       }
 
+      // Initial loading progress bar
       if (!s.isReady && s.totalFrames > 0) {
         const p = Math.min(s.loaded / s.totalFrames, 1);
         ctx.fillStyle = 'rgba(0,0,0,0.2)';
@@ -264,7 +275,6 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
       window.removeEventListener('resize', resize);
     };
   }, []);
-
 
   return (
     <canvas
