@@ -1,0 +1,667 @@
+/* ProjectsSection.css */
+/* Luxury Editorial Selected Ventures & Mandate Showcase */
+
+.works-section {
+  position: relative;
+  background: transparent;
+  padding: 6.5rem 2rem 5rem;
+  width: 100%;
+}
+
+.works-container {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   Editorial Section Header
+   ========================================================================== */
+
+.works-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 4rem;
+}
+
+.works-label-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.4rem 1.1rem;
+  border-radius: 9999px;
+  background: rgba(255, 240, 245, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 16px rgba(31, 20, 24, 0.05);
+  margin-bottom: 1.25rem;
+}
+
+.works-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent-barbie);
+  text-transform: uppercase;
+}
+
+.works-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(31, 20, 24, 0.35);
+}
+
+.works-counter {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.works-title {
+  font-size: clamp(2.1rem, 4.2vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.works-subtitle {
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 640px;
+  margin: 0 auto 2.25rem;
+}
+
+/* Filter Navigation Pills */
+.works-filter-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.filter-pill {
+  padding: 0.55rem 1.35rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  background: rgba(255, 240, 245, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 10px rgba(31, 20, 24, 0.04);
+}
+
+.filter-pill:hover {
+  background: rgba(255, 240, 245, 0.9);
+  border-color: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+  color: var(--accent-barbie);
+  box-shadow: 0 6px 18px rgba(31, 20, 24, 0.08);
+}
+
+.filter-pill.is-active {
+  background: var(--accent-barbie);
+  color: #ffffff;
+  border-color: var(--accent-barbie);
+  box-shadow: 0 4px 18px rgba(224, 33, 138, 0.36);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Selected Ventures Grid
+   ========================================================================== */
+
+.works-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem;
+}
+
+/* Frosted Glass Venture Card */
+.work-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 240, 245, 0.48);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 14px 38px rgba(31, 20, 24, 0.07);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease,
+              background 0.4s ease;
+}
+
+.work-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 240, 245, 0.68);
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 26px 56px rgba(31, 20, 24, 0.14);
+}
+
+/* Card Media / Artwork Banner */
+.work-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  cursor: pointer;
+  background: #180a13;
+}
+
+.project-artwork {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artwork-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-card:hover .artwork-svg {
+  transform: scale(1.035);
+}
+
+.work-card-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 8, 14, 0) 40%,
+    rgba(20, 8, 14, 0.68) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 1.25rem;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.work-card:hover .work-card-media-overlay {
+  opacity: 1;
+}
+
+.media-inspect-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transform: translateY(4px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, color 0.2s ease;
+}
+
+.work-card:hover .media-inspect-btn {
+  transform: translateY(0);
+  background: var(--accent-barbie);
+  color: #ffffff;
+}
+
+/* Card Body */
+.work-card-body {
+  padding: 1.75rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.work-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.875rem;
+}
+
+.meta-category {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-barbie);
+}
+
+.meta-year {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.work-card-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.work-card-mandate {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent-barbie-hover);
+  letter-spacing: 0.02em;
+  margin-bottom: 0.875rem;
+}
+
+.work-card-summary {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+/* Card Metrics Grid */
+.work-card-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  margin-bottom: 1.5rem;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.metric-lbl {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  margin-top: 0.2rem;
+  text-transform: uppercase;
+}
+
+/* Card CTA Footer */
+.work-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.card-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.4rem 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.card-cta-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent-barbie);
+  transform: scaleX(0.2);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-cta-btn:hover {
+  color: var(--accent-barbie);
+}
+
+.card-cta-btn:hover::after {
+  transform: scaleX(1);
+}
+
+.card-cta-arrow {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-cta-btn:hover .card-cta-arrow {
+  transform: translate(3px, -3px);
+  color: var(--accent-barbie);
+}
+
+/* ==========================================================================
+   Interactive Curatorial Lightbox Modal
+   ========================================================================== */
+
+.mandate-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background: rgba(24, 10, 18, 0.76);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: lightboxFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes lightboxFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mandate-lightbox-content {
+  position: relative;
+  width: 100%;
+  max-width: 820px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: rgba(255, 245, 248, 0.95);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 24px;
+  box-shadow: 0 32px 80px rgba(31, 20, 24, 0.35);
+  animation: lightboxSlideUp 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes lightboxSlideUp {
+  from {
+    transform: translateY(24px) scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Modal Close Button */
+.lightbox-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightbox-close-btn:hover {
+  background: var(--accent-barbie);
+  border-color: var(--accent-barbie);
+  color: #ffffff;
+  transform: rotate(90deg) scale(1.05);
+}
+
+/* Modal High-Res Artwork Banner */
+.lightbox-artwork-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #14070f;
+  overflow: hidden;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+
+.lightbox-artwork-badge {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  background: rgba(20, 8, 14, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.lightbox-cat {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #ff85c2;
+  text-transform: uppercase;
+}
+
+.lightbox-year {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Modal Editorial Content Body */
+.lightbox-body {
+  padding: 2.25rem 2.5rem 2.5rem;
+}
+
+.lightbox-header {
+  margin-bottom: 1.75rem;
+}
+
+.lightbox-pretitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent-barbie);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.lightbox-title {
+  font-size: clamp(1.75rem, 3.2vw, 2.35rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.lightbox-mandate-subtitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--accent-barbie-hover);
+  letter-spacing: 0.02em;
+}
+
+/* Mandate Thesis Box */
+.lightbox-thesis-box {
+  background: rgba(255, 240, 245, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: 4px solid var(--accent-barbie);
+  border-radius: 14px;
+  padding: 1.35rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.thesis-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent-barbie);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.thesis-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+}
+
+/* Parameters Section */
+.lightbox-parameters-section {
+  margin-bottom: 2.25rem;
+}
+
+.parameters-heading {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.parameters-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.parameter-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.1rem 1.25rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+}
+
+.parameter-card-wide {
+  grid-column: span 2;
+}
+
+.param-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.param-value {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+/* Lightbox Action Footer */
+.lightbox-footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(31, 20, 24, 0.08);
+}
+
+.lightbox-inquire-btn {
+  box-shadow: 0 6px 22px rgba(224, 33, 138, 0.38);
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+@media (max-width: 960px) {
+  .works-section {
+    padding: 5rem 1.5rem 4rem;
+  }
+
+  .works-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .lightbox-body {
+    padding: 1.75rem 1.5rem 2rem;
+  }
+
+  .parameters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .parameter-card-wide {
+    grid-column: span 1;
+  }
+
+  .lightbox-footer {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .lightbox-footer .btn-editorial {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .works-section {
+    padding: 4.5rem 1rem 3.5rem;
+  }
+
+  .work-card-body {
+    padding: 1.35rem 1.25rem 1.5rem;
+  }
+
+  .work-card-metrics {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .works-filter-nav {
+    gap: 0.4rem;
+  }
+
+  .filter-pill {
+    padding: 0.45rem 1rem;
+    font-size: 0.75rem;
+  }
+}

@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
 import HeroSection from './HeroSection';
+import ProjectsSection from './ProjectsSection';
 
 export default function App() {
   const [contactOpen, setContactOpen] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
 
+  const handleOpenContact = () => {
+    setContactOpen(true);
+  };
+
+  const handleOpenResume = () => {
+    setResumeOpen(true);
+  };
+
   return (
     <div className="app-root">
       <HeroSection
-        onOpenContact={() => setContactOpen(true)}
-        onOpenResume={() => setResumeOpen(true)}
+        onOpenContact={handleOpenContact}
+        onOpenResume={handleOpenResume}
       >
-        <div style={{ minHeight: '60vh', padding: '6rem 2rem', textAlign: 'center' }}>
-          {/* Downstream portfolio sections mount here in Tasks 5-7 */}
-        </div>
+        <ProjectsSection onOpenContact={handleOpenContact} />
       </HeroSection>
     </div>
   );
