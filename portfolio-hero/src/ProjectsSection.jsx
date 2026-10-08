@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { ArrowUpRight, X, ExternalLink, ShieldCheck, TrendingUp, Layers, Compass } from 'lucide-react';
+import { ArrowUpRight, X } from 'lucide-react';
 import ProjectMockup from './ProjectMockup';
 import useScrollReveal from './useScrollReveal';
 import { playClick, playHover, playOpen, playClose } from './soundEffects';

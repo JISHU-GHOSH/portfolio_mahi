@@ -1,0 +1,410 @@
+/* ContactModal.css */
+/* Luxury Editorial Advisory Inquiry Modal */
+
+.contact-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(31, 20, 24, 0.48);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow-y: auto;
+  animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.contact-modal-dialog {
+  background: rgba(255, 240, 245, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 28px;
+  box-shadow: 0 25px 60px rgba(31, 20, 24, 0.22);
+  width: 100%;
+  max-width: 680px;
+  padding: 2.75rem 2.75rem 2.25rem;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalScaleUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.modal-header-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.modal-badge {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  color: var(--accent-barbie);
+}
+
+.modal-sla-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.modal-close-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 240, 245, 0.75);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.modal-close-btn:hover {
+  background: var(--accent-barbie);
+  color: #ffffff;
+  border-color: var(--accent-barbie);
+  transform: rotate(90deg);
+}
+
+/* Modal Heading */
+.modal-heading-group {
+  margin-bottom: 2rem;
+}
+
+.modal-title {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.modal-intro {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* Category Pills Selector */
+.category-selection-block {
+  margin-bottom: 1.75rem;
+}
+
+.category-selection-block .field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.category-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.modal-cat-pill {
+  padding: 0.55rem 1.1rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(255, 240, 245, 0.65);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-cat-pill:hover {
+  background: rgba(255, 240, 245, 0.95);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.95);
+}
+
+.modal-cat-pill.is-selected {
+  background: var(--accent-barbie);
+  color: #ffffff;
+  border-color: var(--accent-barbie);
+  box-shadow: 0 4px 14px rgba(224, 33, 138, 0.35);
+}
+
+/* Form Fields */
+.form-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.form-field-full {
+  grid-column: 1 / -1;
+}
+
+.form-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.field-label svg {
+  color: var(--accent-barbie);
+}
+
+.modal-input,
+.modal-textarea {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(224, 114, 137, 0.35);
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 2px 4px rgba(31, 20, 24, 0.02);
+}
+
+.modal-input::placeholder,
+.modal-textarea::placeholder {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.modal-input:focus,
+.modal-textarea:focus {
+  background: #ffffff;
+  border-color: var(--accent-barbie);
+  box-shadow: 0 0 0 3px rgba(224, 33, 138, 0.18);
+}
+
+.modal-input.has-error,
+.modal-textarea.has-error {
+  border-color: #e11d48;
+  background: rgba(255, 242, 242, 0.8);
+}
+
+.field-error-msg {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #be123c;
+  margin-top: 0.2rem;
+}
+
+.modal-textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+/* Modal Form Footer */
+.modal-form-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.confidentiality-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.confidentiality-notice svg {
+  color: var(--accent-barbie);
+  flex-shrink: 0;
+}
+
+.modal-btn-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Confirmation Screen */
+.modal-confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem 0;
+  animation: modalFadeIn 0.3s ease;
+}
+
+.confirmation-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.confirmation-check {
+  color: #059669;
+}
+
+.confirmation-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.confirmation-lead {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--accent-barbie);
+  margin-bottom: 1rem;
+}
+
+.confirmation-desc {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin-bottom: 2rem;
+}
+
+.confirmation-card {
+  width: 100%;
+  max-width: 520px;
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.confirm-lbl {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.confirm-val {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: right;
+  word-break: break-all;
+}
+
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: var(--accent-barbie);
+}
+
+.confirmation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .contact-modal-dialog {
+    padding: 2rem 1.25rem 1.5rem;
+    border-radius: 20px;
+  }
+
+  .form-fields-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-btn-row {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
+  .modal-btn-row .btn-editorial {
+    width: 100%;
+  }
+
+  .confirmation-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .confirmation-actions .btn-editorial {
+    width: 100%;
+  }
+}

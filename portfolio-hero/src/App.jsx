@@ -2,31 +2,40 @@ import React, { useState } from 'react';
 import HeroSection from './HeroSection';
 import ProjectsSection from './ProjectsSection';
 import AboutSection from './AboutSection';
+import ContactSection from './ContactSection';
+import ContactModal from './ContactModal';
+import ResumeModal from './ResumeModal';
 
 export default function App() {
-  const [contactOpen, setContactOpen] = useState(false);
-  const [resumeOpen, setResumeOpen] = useState(false);
-
-  const handleOpenContact = () => {
-    setContactOpen(true);
-  };
-
-  const handleOpenResume = () => {
-    setResumeOpen(true);
-  };
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   return (
-    <div className="app-root">
+    <>
       <HeroSection
-        onOpenContact={handleOpenContact}
-        onOpenResume={handleOpenResume}
+        onOpenContact={() => setIsContactOpen(true)}
+        onOpenResume={() => setIsResumeOpen(true)}
       >
-        <ProjectsSection onOpenContact={handleOpenContact} />
+        <ProjectsSection onOpenContact={() => setIsContactOpen(true)} />
         <AboutSection
-          onOpenResume={handleOpenResume}
-          onOpenContact={handleOpenContact}
+          onOpenResume={() => setIsResumeOpen(true)}
+          onOpenContact={() => setIsContactOpen(true)}
+        />
+        <ContactSection
+          onOpenContact={() => setIsContactOpen(true)}
+          onOpenResume={() => setIsResumeOpen(true)}
         />
       </HeroSection>
-    </div>
+
+      <ContactModal
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+      />
+
+      <ResumeModal
+        isOpen={isResumeOpen}
+        onClose={() => setIsResumeOpen(false)}
+      />
+    </>
   );
 }
