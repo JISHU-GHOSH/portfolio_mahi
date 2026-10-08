@@ -1,13 +1,14 @@
 import { useRef, useEffect } from 'react';
 
 const NUM_FRAMES      = 64;
-const DEADZONE_RADIUS = 0.08;
+const DEADZONE_ENTER  = 0.07;
+const DEADZONE_EXIT   = 0.09;
 const BG_COLOR        = '#ee8299'; // Exact match with video background
 const FACE_CENTER_X   = 0.502;
 const FACE_CENTER_Y   = 0.389;
 
-const FRAME_LERP      = 0.22;
-const MAX_FRAME_STEP  = 2.8;
+const FRAME_LERP      = 0.20;
+const MAX_FRAME_STEP  = 2.4;
 const ASPECT_RATIO    = 1920 / 1080;
 
 export default function CharacterCanvas({ className = 'character-canvas' }) {
@@ -24,6 +25,8 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
     rafId:          null,
     mouseX:         FACE_CENTER_X,
     mouseY:         FACE_CENTER_Y,
+    curMouseX:      FACE_CENTER_X,
+    curMouseY:      FACE_CENTER_Y,
     isReady:        false,
   });
 
@@ -97,7 +100,7 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
         if (isTouching) return;
         const dx = FACE_CENTER_X - s.mouseX;
         const dy = FACE_CENTER_Y - s.mouseY;
-        if (Math.abs(dx) > 0.005 || Math.abs(dy) > 0.005) {
+        if (Math.abs(dx) > 0.003 || Math.abs(dy) > 0.003) {
           s.mouseX += dx * 0.12;
           s.mouseY += dy * 0.12;
           touchReturnRaf = requestAnimationFrame(driftToCenter);
@@ -110,6 +113,7 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
       touchReturnRaf = requestAnimationFrame(driftToCenter);
     };
 
+    window.addEventListener('pointermove', onMove, { passive: true });
     window.addEventListener('mousemove', onMove, { passive: true });
     window.addEventListener('touchstart', onTouchStart, { passive: true });
     window.addEventListener('touchmove', onTouchMove, { passive: true });
@@ -117,6 +121,7 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
     window.addEventListener('touchcancel', onTouchEnd, { passive: true });
 
     return () => {
+      window.removeEventListener('pointermove', onMove);
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
@@ -161,35 +166,67 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
       const H = window.innerHeight;
       if (W <= 0 || H <= 0) return;
 
-      const faceCX = W * FACE_CENTER_X;
-      const faceCY = H * FACE_CENTER_Y;
+      // ── Object-fit: cover metrics for video aspect ratio ──
+      const cA = W / H;
+      let dW, dH, dX, dY;
+      if (ASPECT_RATIO > cA) {
+        dH = H;
+        dW = dH * ASPECT_RATIO;
+        dX = (W - dW) / 2;
+        dY = 0;
+      } else {
+        dW = W;
+        dH = dW / ASPECT_RATIO;
+        dX = 0;
+        dY = (H - dH) / 2;
+      }
 
-      const cx = s.mouseX * W;
-      const cy = s.mouseY * H;
+      // ── Exact pixel position of Mahi's face on canvas ──
+      const faceCX = dX + dW * FACE_CENTER_X;
+      const faceCY = dY + dH * FACE_CENTER_Y;
+
+      // ── Smooth cursor coordinate filter (low-pass) ──
+      s.curMouseX += (s.mouseX - s.curMouseX) * Math.min(1, 0.28 * dt);
+      s.curMouseY += (s.mouseY - s.curMouseY) * Math.min(1, 0.28 * dt);
+
+      const cx = s.curMouseX * W;
+      const cy = s.curMouseY * H;
       const dx = cx - faceCX;
       const dy = cy - faceCY;
 
+      // ── Distance & Hysteresis Deadzone ──
       const dist = Math.sqrt(dx * dx + dy * dy) / Math.min(W, H);
-      s.isCenter = dist < DEADZONE_RADIUS;
+      if (s.isCenter) {
+        if (dist > DEADZONE_EXIT) s.isCenter = false;
+      } else {
+        if (dist < DEADZONE_ENTER) s.isCenter = true;
+      }
 
-      s.targetAngle = Math.atan2(-dy, dx);
+      // Only recalculate angle when outside the inner jitter zone
+      if (dist >= 0.03) {
+        s.targetAngle = Math.atan2(-dy, dx);
+      }
 
+      // Angle -> frame index [0, 64)
       let normTarget = s.targetAngle % (2 * Math.PI);
       if (normTarget < 0) normTarget += 2 * Math.PI;
       const targetFrame = (normTarget / (2 * Math.PI)) * NUM_FRAMES;
 
+      // Shortest circular path
       let diff = targetFrame - s.smoothFrame;
       if (diff >  NUM_FRAMES / 2) diff -= NUM_FRAMES;
       if (diff < -NUM_FRAMES / 2) diff += NUM_FRAMES;
 
       const lf = 1 - Math.pow(1 - FRAME_LERP, dt);
       const absDiff = Math.abs(diff);
-      const step = Math.sign(diff) * Math.min(absDiff * Math.max(lf, 0.20), MAX_FRAME_STEP);
+      const speedFactor = absDiff < 2.0 ? Math.max(lf * 0.75, 0.10) : Math.max(lf, 0.20);
+      const step = Math.sign(diff) * Math.min(absDiff * speedFactor, MAX_FRAME_STEP);
 
       s.smoothFrame = ((s.smoothFrame + step) % NUM_FRAMES + NUM_FRAMES) % NUM_FRAMES;
 
       const frameIdx = Math.round(s.smoothFrame) % NUM_FRAMES;
 
+      // Frame selection with neutral fallback
       let img = null;
       if (s.isCenter && s.centerImg && s.centerImg.complete && s.centerImg.naturalWidth > 0) {
         img = s.centerImg;
@@ -199,29 +236,12 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
         img = s.centerImg;
       }
 
+      // Clear with background color for seamless edges
       ctx.fillStyle = BG_COLOR;
       ctx.fillRect(0, 0, W, H);
 
       if (img) {
         try {
-          const iA = (img.naturalWidth && img.naturalHeight)
-            ? (img.naturalWidth / img.naturalHeight)
-            : ASPECT_RATIO;
-          const cA = W / H;
-
-          let dW, dH, dX, dY;
-          if (iA > cA) {
-            dH = H;
-            dW = dH * iA;
-            dX = (W - dW) / 2;
-            dY = 0;
-          } else {
-            dW = W;
-            dH = dW / iA;
-            dX = 0;
-            dY = (H - dH) / 2;
-          }
-
           ctx.drawImage(img, dX, dY, dW, dH);
         } catch {
           // Graceful fallback
@@ -244,6 +264,7 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
       window.removeEventListener('resize', resize);
     };
   }, []);
+
 
   return (
     <canvas
