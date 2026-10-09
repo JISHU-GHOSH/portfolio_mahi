@@ -20,7 +20,7 @@ frame_map = [
     # 0..7: 0° to 45° (RIGHT -> UP-RIGHT)
     128, 126, 124, 122, 120, 118, 116, 114,
     # 8..15: 45° to 90° (UP-RIGHT -> UP)
-    112, 110, 108, 0, 4, 8, 12, 16,
+    112, 110, 108, 6, 7, 8, 12, 16,
     # 16..23: 90° to 135° (UP -> UP-LEFT)
     18, 20, 22, 24, 26, 28, 60, 62,
     # 24..31: 135° to 180° (UP-LEFT -> LEFT)
@@ -47,7 +47,7 @@ if not cap.isOpened():
 
 all_frames = {}
 needed = set(frame_map)
-needed.add(108) # Center direct eye-contact frame
+needed.add(0) # Frame 0: True direct eye-contact, looking completely straight at the camera
 
 f_idx = 0
 while True:
@@ -66,8 +66,8 @@ for i, f_num in enumerate(frame_map):
     out_path = os.path.join(OUT_DIR, f"{i:03d}.webp")
     cv2.imwrite(out_path, cleaned, [cv2.IMWRITE_WEBP_QUALITY, 92])
 
-# Save center eye-contact frame (Frame 108)
-cleaned_center = inpaint_frame(all_frames[108])
+# Save center eye-contact frame (Frame 0: True Straight Ahead)
+cleaned_center = inpaint_frame(all_frames[0])
 cv2.imwrite(os.path.join(OUT_DIR, "center.webp"), cleaned_center, [cv2.IMWRITE_WEBP_QUALITY, 92])
 
-print(f"Successfully saved 64 WebP frames + center.webp to {OUT_DIR}")
+print(f"Successfully saved 64 WebP frames + center.webp (true straight eye-contact) to {OUT_DIR}")
