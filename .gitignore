@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Production builds
+dist/
+*/dist/
+dist-ssr/
+*/dist-ssr/
+
+# Environment and logs
+*.local
+.env
+*.log
+npm-debug.log*
+
+# Python & Temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+scratch/
+.superpowers/
+
+# System and editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
