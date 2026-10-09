@@ -1,15 +1,15 @@
 import { useRef, useEffect } from 'react';
 
 const NUM_FRAMES      = 64;
-const DEADZONE_ENTER  = 0.07;
-const DEADZONE_EXIT   = 0.095;
+const DEADZONE_ENTER  = 0.045;
+const DEADZONE_EXIT   = 0.065;
 const BG_COLOR        = '#ee8299'; // Barbie Pink exact match
 const FACE_CENTER_X   = 0.502;
 const FACE_CENTER_Y   = 0.389;
 
-// Responsive circular physics for agile, fluid 60 FPS 360° tracking
-const FRAME_LERP      = 0.32;
-const MAX_FRAME_STEP  = 3.8;
+// Fast, agile 60 FPS circular tracking physics
+const FRAME_LERP      = 0.48;
+const MAX_FRAME_STEP  = 6.2;
 const ASPECT_RATIO    = 1920 / 1080;
 
 export default function CharacterCanvas({ className = 'character-canvas' }) {
@@ -218,7 +218,16 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
 
       const lf = 1 - Math.pow(1 - FRAME_LERP, dt);
       const absDiff = Math.abs(diff);
-      const speedFactor = absDiff < 1.5 ? Math.max(lf * 0.85, 0.20) : Math.max(lf, 0.32);
+
+      // Multi-tier agile tracking: instantaneous reaction on fast cursor sweeps, smooth sub-pixel settling
+      let speedFactor;
+      if (absDiff > 6) {
+        speedFactor = Math.max(lf, 0.58);
+      } else if (absDiff > 2) {
+        speedFactor = Math.max(lf * 0.95, 0.44);
+      } else {
+        speedFactor = Math.max(lf * 0.85, 0.28);
+      }
       const step = Math.sign(diff) * Math.min(absDiff * speedFactor, MAX_FRAME_STEP * dt);
 
       s.smoothFrame = ((s.smoothFrame + step) % NUM_FRAMES + NUM_FRAMES) % NUM_FRAMES;
