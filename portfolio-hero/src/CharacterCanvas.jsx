@@ -7,9 +7,9 @@ const BG_COLOR        = '#ee8299'; // Barbie Pink exact match
 const FACE_CENTER_X   = 0.502;
 const FACE_CENTER_Y   = 0.389;
 
-// Fluid circular physics for liquid-smooth 60 FPS 360° tracking
-const FRAME_LERP      = 0.22;
-const MAX_FRAME_STEP  = 2.4;
+// Responsive circular physics for agile, fluid 60 FPS 360° tracking
+const FRAME_LERP      = 0.32;
+const MAX_FRAME_STEP  = 3.8;
 const ASPECT_RATIO    = 1920 / 1080;
 
 export default function CharacterCanvas({ className = 'character-canvas' }) {
@@ -26,8 +26,6 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
     rafId:          null,
     mouseX:         FACE_CENTER_X,
     mouseY:         FACE_CENTER_Y,
-    curMouseX:      FACE_CENTER_X,
-    curMouseY:      FACE_CENTER_Y,
     isReady:        false,
   });
 
@@ -189,12 +187,9 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
       const faceCX = dX + dW * FACE_CENTER_X;
       const faceCY = dY + dH * FACE_CENTER_Y;
 
-      // Smooth cursor coordinate filter (low-pass)
-      s.curMouseX += (s.mouseX - s.curMouseX) * Math.min(1, 0.28 * dt);
-      s.curMouseY += (s.mouseY - s.curMouseY) * Math.min(1, 0.28 * dt);
-
-      const cx = s.curMouseX * W;
-      const cy = s.curMouseY * H;
+      // Direct responsive cursor vector (zero artificial lag)
+      const cx = s.mouseX * W;
+      const cy = s.mouseY * H;
       const dx = cx - faceCX;
       const dy = cy - faceCY;
 
@@ -207,7 +202,7 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
       }
 
       // Continuously update target angle outside inner jitter zone
-      if (dist >= 0.025) {
+      if (dist >= 0.02) {
         s.targetAngle = Math.atan2(-dy, dx);
       }
 
@@ -223,7 +218,7 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
 
       const lf = 1 - Math.pow(1 - FRAME_LERP, dt);
       const absDiff = Math.abs(diff);
-      const speedFactor = absDiff < 2.0 ? Math.max(lf * 0.75, 0.12) : Math.max(lf, 0.22);
+      const speedFactor = absDiff < 1.5 ? Math.max(lf * 0.85, 0.20) : Math.max(lf, 0.32);
       const step = Math.sign(diff) * Math.min(absDiff * speedFactor, MAX_FRAME_STEP * dt);
 
       s.smoothFrame = ((s.smoothFrame + step) % NUM_FRAMES + NUM_FRAMES) % NUM_FRAMES;
@@ -245,8 +240,8 @@ export default function CharacterCanvas({ className = 'character-canvas' }) {
       ctx.fillRect(0, 0, W, H);
 
       // Subtle living 3D micro-parallax shift
-      const parallaxX = (s.curMouseX - FACE_CENTER_X) * 4;
-      const parallaxY = (s.curMouseY - FACE_CENTER_Y) * 5;
+      const parallaxX = (s.mouseX - FACE_CENTER_X) * 4;
+      const parallaxY = (s.mouseY - FACE_CENTER_Y) * 5;
 
       if (img) {
         try {
