@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm --prefix portfolio-hero run build",
+  "outputDirectory": "portfolio-hero/dist",
+  "framework": "vite"
+}
