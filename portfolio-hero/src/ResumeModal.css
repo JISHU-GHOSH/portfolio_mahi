@@ -200,6 +200,17 @@
   color: var(--accent-barbie);
 }
 
+.cv-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.cv-link:hover {
+  color: var(--accent-barbie);
+  text-decoration: underline;
+}
+
 /* CV Sections */
 .cv-section {
   display: flex;

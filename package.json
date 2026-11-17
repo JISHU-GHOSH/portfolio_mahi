@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "Mahi — Founder & Venture Strategist luxury interactive portfolio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mahi-create710/portfolio_mahi.git"
+  },
+  "homepage": "https://portfoliomahi-seven.vercel.app",
   "scripts": {
     "dev": "npm --prefix portfolio-hero run dev",
     "build": "npm --prefix portfolio-hero run build",

@@ -10,6 +10,7 @@ import {
   MapPin,
   Clock,
   ShieldCheck,
+  Github,
 } from 'lucide-react';
 import useScrollReveal from './useScrollReveal';
 import { playClick, playHover } from './soundEffects';
@@ -49,6 +50,12 @@ const OFFICE_LOCATIONS = [
  * Executive Platform & Editorial Publications
  */
 const PLATFORM_LINKS = [
+  {
+    name: 'GitHub',
+    label: 'Open Source Architecture & Systems Codebase',
+    url: 'https://github.com/Mahi-create710/portfolio_mahi',
+    handle: 'github.com/Mahi-create710/portfolio_mahi',
+  },
   {
     name: 'LinkedIn',
     label: 'Executive Profile & Board Network',
@@ -291,6 +298,20 @@ export default function ContactSection({ onOpenContact, onOpenResume }) {
               </p>
               <p className="colophon-subcopy">
                 London Mayfair &bull; New York Hudson Yards &bull; Singapore Marina Bay &bull; Institutional Private Capital
+              </p>
+              <p className="colophon-github-row">
+                <a
+                  href="https://github.com/Mahi-create710/portfolio_mahi"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="colophon-github-link"
+                  onClick={playClick}
+                  onMouseEnter={playHover}
+                >
+                  <Github size={14} aria-hidden="true" />
+                  <span>GitHub: Mahi-create710/portfolio_mahi</span>
+                  <ArrowUpRight size={12} aria-hidden="true" />
+                </a>
               </p>
             </div>
 

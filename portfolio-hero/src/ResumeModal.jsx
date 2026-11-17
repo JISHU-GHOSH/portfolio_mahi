@@ -11,6 +11,7 @@ import {
   MapPin,
   Mail,
   Globe,
+  Github,
 } from 'lucide-react';
 import { playClick, playHover, playOpen, playClose } from './soundEffects';
 import './ResumeModal.css';
@@ -119,6 +120,17 @@ export default function ResumeModal({ isOpen, onClose }) {
                 <div className="cv-contact-item">
                   <Globe size={13} aria-hidden="true" />
                   <span>auracapital.com &bull; luminaadvisory.com</span>
+                </div>
+                <div className="cv-contact-item">
+                  <Github size={13} aria-hidden="true" />
+                  <a
+                    href="https://github.com/Mahi-create710/portfolio_mahi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cv-link"
+                  >
+                    github.com/Mahi-create710/portfolio_mahi
+                  </a>
                 </div>
               </div>
             </header>

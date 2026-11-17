@@ -5,6 +5,8 @@ A luxury, interactive executive portfolio featuring a 60 FPS cursor-tracking cha
 ![React](https://img.shields.io/badge/React-19-blue?style=flat-square)
 ![Vite](https://img.shields.io/badge/Vite-5.4-purple?style=flat-square)
 ![OpenCV](https://img.shields.io/badge/OpenCV-Python-green?style=flat-square)
+[![GitHub](https://img.shields.io/badge/GitHub-Mahi--create710%2Fportfolio__mahi-181717?style=flat-square&logo=github)](https://github.com/Mahi-create710/portfolio_mahi)
+[![Vercel](https://img.shields.io/badge/Vercel-portfoliomahi--seven.vercel.app-black?style=flat-square&logo=vercel)](https://portfoliomahi-seven.vercel.app)
 ![License](https://img.shields.io/badge/License-MIT-black?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=flat-square)
 
@@ -67,10 +69,11 @@ portfolio_mahi/
 - **Node.js** (v18.0 or higher)
 - **npm** or **pnpm** / **yarn**
 
-### 1. Install Dependencies
+### 1. Clone & Install Dependencies
 
-From the repository root:
 ```bash
+git clone https://github.com/Mahi-create710/portfolio_mahi.git
+cd portfolio_mahi
 npm run install:all
 ```
 *(Or `cd portfolio-hero && npm install`)*

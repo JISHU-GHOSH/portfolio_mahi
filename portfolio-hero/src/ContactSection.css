@@ -455,6 +455,27 @@
   color: var(--text-muted);
 }
 
+.colophon-github-row {
+  margin-top: 0.5rem;
+}
+
+.colophon-github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent-barbie);
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.colophon-github-link:hover {
+  color: var(--accent-barbie-hover);
+  transform: translateX(3px);
+  text-decoration: underline;
+}
+
 .back-to-top-btn {
   display: inline-flex;
   align-items: center;

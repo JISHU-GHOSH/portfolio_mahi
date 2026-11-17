@@ -3,6 +3,11 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mahi-create710/portfolio_mahi.git"
+  },
+  "homepage": "https://portfoliomahi-seven.vercel.app",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

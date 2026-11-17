@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Volume2, VolumeX, ArrowUpRight } from 'lucide-react';
+import { Volume2, VolumeX, ArrowUpRight, Github } from 'lucide-react';
 import CharacterCanvas from './CharacterCanvas';
 import { playClick, playHover, toggleMute, isMuted } from './soundEffects';
 import './HeroSection.css';
@@ -238,6 +238,20 @@ export default function HeroSection({
           >
             {soundMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
           </button>
+
+          {/* GitHub Repository Link */}
+          <a
+            href="https://github.com/Mahi-create710/portfolio_mahi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-sound-btn nav-github-btn"
+            title="GitHub: Mahi-create710/portfolio_mahi"
+            aria-label="GitHub Repository"
+            onClick={playClick}
+            onMouseEnter={playHover}
+          >
+            <Github size={15} />
+          </a>
         </nav>
       </header>
 

@@ -158,6 +158,10 @@
   opacity: 0.7;
 }
 
+.nav-github-btn {
+  text-decoration: none;
+}
+
 /* Full-screen Character Canvas: fixed background at z-index 0 */
 .character-canvas {
   position: fixed;
